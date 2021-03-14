@@ -1,8 +1,9 @@
 import { DocumentListResponse, MangoQuery, MangoResponse } from 'nano';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '../couchdb/module';
 import { Repository } from '../couchdb/interfaces';
 import { User } from './user.entity';
+import { Incident } from '../incident/incident.entity';
 
 @Injectable()
 export class UserService {
@@ -11,15 +12,15 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<MangoResponse<User>> {
+  async findAllUserByRole(role: string) {
     const q: MangoQuery = {
       selector: {
-        email: { $eq: 'admin@gmail.com' },
-        password: { $eq: 'e10adc3949ba59abbe56e057f20f883e' },
+        firstName: { $exists: true },
+        role: { $eq: role },
       },
-      fields: ['email', 'password', 'role'],
     };
-    return this.userRepository.find(q);
+    const data = await this.userRepository.find(q);
+    return data.docs;
   }
 
   async findByEmail(email: string) {
@@ -29,9 +30,16 @@ export class UserService {
       },
       fields: ['email', 'role'],
     };
-    const aa = await this.userRepository.find(q);
-    const result = aa.docs ? aa.docs[0] : null;
-    return result;
+    const result = await this.userRepository.find(q);
+    const data = result.docs ? result.docs[0] : null;
+    return data;
+  }
+
+  async create(user: User) {
+    const result = await this.userRepository.insert(user);
+    if (!result.ok) {
+      throw new HttpException('Insert user fail', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async findByEmailAndPassword(email: string, password: string) {
@@ -42,8 +50,8 @@ export class UserService {
       },
       fields: ['_id', '_rev', 'email', 'role'],
     };
-    const aa = await this.userRepository.find(q);
-    const result = aa.docs ? aa.docs[0] : null;
-    return result;
+    const result = await this.userRepository.find(q);
+    const data = result.docs ? result.docs[0] : null;
+    return data;
   }
 }
