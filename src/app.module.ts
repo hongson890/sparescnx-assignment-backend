@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CouchDbModule } from './couchdb/module';
 import { UserModule } from './users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
+import { IncidentModule } from './incident/incident.module';
 
 @Module({
   imports: [
@@ -19,8 +18,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     AuthModule,
     UserModule,
+    IncidentModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
