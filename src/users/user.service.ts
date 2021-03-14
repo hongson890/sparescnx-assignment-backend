@@ -27,7 +27,20 @@ export class UserService {
       selector: {
         email: { $eq: email },
       },
-      fields: ['email', 'password', 'role'],
+      fields: ['email', 'role'],
+    };
+    const aa = await this.userRepository.find(q);
+    const result = aa.docs ? aa.docs[0] : null;
+    return result;
+  }
+
+  async findByEmailAndPassword(email: string, password: string) {
+    const q: MangoQuery = {
+      selector: {
+        email: { $eq: email },
+        password: { $eq: password },
+      },
+      fields: ['_id', '_rev', 'email', 'role'],
     };
     const aa = await this.userRepository.find(q);
     const result = aa.docs ? aa.docs[0] : null;
