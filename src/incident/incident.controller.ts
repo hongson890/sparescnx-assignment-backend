@@ -58,4 +58,9 @@ export class IncidentController {
   update(@Param('id') id: string, @Body() incident: Incident) {
     return `This action updates a #${id} cat`;
   }
+
+  @Get(':id')
+  getIncidentDetailById(@Param('id') id: string) {
+    return this.incidentService.getIncidentDetailById(id);
+  }
 }

@@ -38,7 +38,7 @@ export class UserService {
   async getUserById(_id: string) {
     const q: MangoQuery = {
       selector: {
-        id: { $eq: _id },
+        _id: { $eq: _id },
       },
       fields: ['firstName', 'lastName'],
     };

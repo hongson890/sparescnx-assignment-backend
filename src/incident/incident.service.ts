@@ -5,12 +5,14 @@ import { Repository } from '../couchdb/interfaces';
 import { Incident } from './incident.entity';
 import { CouchDbEntity } from '../couchdb';
 import { IncidentCreatedDTO } from './IncidentCreatedDTO';
+import { UserService } from '../users/user.service';
 
 @Injectable()
 export class IncidentService {
   constructor(
     @InjectRepository(Incident)
     private readonly incidentRepository: Repository<Incident>,
+    private userService: UserService,
   ) {}
 
   findAll(): Promise<DocumentListResponse<Incident>> {
@@ -75,6 +77,26 @@ export class IncidentService {
     } catch (e) {
       throw new HttpException('delete incident fail', HttpStatus.BAD_GATEWAY);
       console.log(e);
+    }
+  }
+
+  async getIncidentDetailById(id: string) {
+    const q: MangoQuery = {
+      selector: {
+        _id: { $eq: id },
+      },
+    };
+    const result = await this.incidentRepository.find(q);
+    const data = result.docs ? result.docs[0] : null;
+    if (data) {
+      const userInfo = await this.userService.getUserById(data.userId);
+      const responseObj = {
+        ...data,
+        fullName: `${userInfo.firstName} ${userInfo.lastName}`,
+      };
+      return responseObj;
+    } else {
+      return null;
     }
   }
 }
