@@ -6,13 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { IncidentService } from './incident.service';
 import { Incident } from './incident.entity';
 import { CouchDbEntity } from '../couchdb';
 import { IncidentCreatedDTO } from './IncidentCreatedDTO';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('incidents')
+@UseGuards(AuthGuard())
 export class IncidentController {
   constructor(private readonly incidentService: IncidentService) {}
 

@@ -7,7 +7,6 @@ export class CouchDbConnectionFactory {
     config: CouchDbConnectionConfig,
   ): Promise<nano.ServerScope> {
     const connection = nano(config);
-    await connection.auth(config.username, config.userpass);
     return connection;
   }
 }

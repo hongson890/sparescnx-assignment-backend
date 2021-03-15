@@ -9,8 +9,6 @@ import { IncidentModule } from './incident/incident.module';
   imports: [
     CouchDbModule.forRoot({
       url: 'http://sparescnx_user:123456@localhost:5984',
-      username: 'sparescnx_user',
-      userpass: '123456',
       requestDefaults: { jar: true },
     }),
     JwtModule.register({

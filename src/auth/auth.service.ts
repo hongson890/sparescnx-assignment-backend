@@ -1,9 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../users/user.service';
-import { User } from '../users/user.entity';
 import { Md5 } from 'md5-typescript';
-
+import { User } from '../users/user.entity';
+import { JwtPayload } from './jwt.payload';
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,15 +31,33 @@ export class AuthService {
           HttpStatus.NOT_FOUND,
         );
       }
-      const payload = `${userData.email} ${userData._id}`;
-      const accessToken = this.jwtService.sign(payload);
 
-      return {
-        expires_in: 3600,
-        accessToken: accessToken,
-        user: userData,
-        status: 200,
-      };
+      return this.createJwtPayload(userData);
     });
+  }
+
+  createJwtPayload(userData) {
+    const data: JwtPayload = {
+      email: userData.email,
+    };
+    const accessToken = this.jwtService.sign(data);
+
+    return {
+      expires_in: 3600,
+      accessToken: accessToken,
+      user: userData,
+      status: 200,
+    };
+  }
+
+  async validateUserByJwt(payload: JwtPayload) {
+    // This will be used when the user has already logged in and has a JWT
+    const user = await this.userService.findUserByEmail(payload.email);
+
+    if (user) {
+      return this.createJwtPayload(user);
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }

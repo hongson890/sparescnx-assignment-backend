@@ -66,4 +66,16 @@ export class UserService {
     const data = result.docs ? result.docs[0] : null;
     return data;
   }
+
+  async findUserByEmail(email: string) {
+    const q: MangoQuery = {
+      selector: {
+        email: { $eq: email },
+      },
+      fields: ['_id', '_rev', 'email', 'role'],
+    };
+    const result = await this.userRepository.find(q);
+    const data = result.docs ? result.docs[0] : null;
+    return data;
+  }
 }
