@@ -8,7 +8,7 @@ import { IncidentModule } from './incident/incident.module';
 @Module({
   imports: [
     CouchDbModule.forRoot({
-      url: 'http://localhost:5984',
+      url: 'http://sparescnx_user:123456@localhost:5984',
       username: 'sparescnx_user',
       userpass: '123456',
       requestDefaults: { jar: true },
