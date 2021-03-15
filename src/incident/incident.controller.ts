@@ -10,6 +10,7 @@ import {
 import { IncidentService } from './incident.service';
 import { Incident } from './incident.entity';
 import { CouchDbEntity } from '../couchdb';
+import { IncidentCreatedDTO } from './IncidentCreatedDTO';
 
 @Controller('incidents')
 export class IncidentController {
@@ -29,7 +30,7 @@ export class IncidentController {
   }
 
   @Post('/create')
-  async createIncident(@Body() incident: Incident) {
+  async createIncident(@Body() incident: IncidentCreatedDTO) {
     return this.incidentService.create(incident);
   }
 
@@ -46,6 +47,11 @@ export class IncidentController {
   @Delete()
   async deleteIncident(@Body() deleteObj: CouchDbEntity) {
     return this.incidentService.delete(deleteObj);
+  }
+
+  @Delete('/delete')
+  async deleteIncidentList(@Body() deletedObj: any) {
+    return this.incidentService.deleteIncidentList(deletedObj.deletedIds);
   }
 
   @Put(':id')
