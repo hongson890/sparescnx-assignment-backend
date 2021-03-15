@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { IncidentService } from './incident.service';
 import { Incident } from './incident.entity';
 import { CouchDbEntity } from '../couchdb';
@@ -23,6 +31,16 @@ export class IncidentController {
   @Post('/create')
   async createIncident(@Body() incident: Incident) {
     return this.incidentService.create(incident);
+  }
+
+  @Post('/search')
+  async searchIncident(@Body() searchObj: any) {
+    return this.incidentService.search(
+      searchObj.input,
+      searchObj.page,
+      searchObj.limit,
+      searchObj.orderBy,
+    );
   }
 
   @Delete()

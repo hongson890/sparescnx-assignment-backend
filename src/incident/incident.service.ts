@@ -1,4 +1,4 @@
-import { DocumentListResponse } from 'nano';
+import { DocumentListResponse, MangoQuery } from 'nano';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '../couchdb/module';
 import { Repository } from '../couchdb/interfaces';
@@ -21,6 +21,17 @@ export class IncidentService {
     if (!result.ok) {
       throw new HttpException('Insert incident fail', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async search(input: string, page: number, limit: number, orderBy: string[]) {
+    const q: MangoQuery = {
+      selector: {
+        name: { $eq: input },
+      },
+    };
+    const result = await this.incidentRepository.find(q);
+    const data = result.docs;
+    return data;
   }
 
   async delete(deleteObj: CouchDbEntity) {
