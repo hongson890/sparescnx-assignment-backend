@@ -27,14 +27,23 @@ export class IncidentService {
   }
 
   async search(input: string, page: number, limit: number, orderBy: string[]) {
-    const q: MangoQuery = {
-      selector: {
-        name: { $eq: input },
-      },
+    const params = {
+      limit: limit,
+      skip: limit * page,
+      sort: orderBy,
+      q: input,
     };
-    const result = await this.incidentRepository.find(q);
-    const data = result.docs;
-    return data;
+    try {
+      const result = await this.incidentRepository.view(
+        'incident',
+        'incident_by_date',
+        params,
+      );
+      console.log(result);
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 
   async delete(deleteObj: CouchDbEntity) {

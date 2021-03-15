@@ -6,9 +6,11 @@ import { IncidentController } from './incident.controller';
 import { UserService } from '../users/user.service';
 import { User } from '../users/user.entity';
 import { UserModule } from '../users/user.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     CouchDbModule.forFeature([Incident]),
     CouchDbModule.forFeature([User]),
   ],
