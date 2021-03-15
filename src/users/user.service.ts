@@ -35,6 +35,18 @@ export class UserService {
     return data;
   }
 
+  async getUserById(_id: string) {
+    const q: MangoQuery = {
+      selector: {
+        id: { $eq: _id },
+      },
+      fields: ['firstName', 'lastName'],
+    };
+    const result = await this.userRepository.find(q);
+    const data = result.docs ? result.docs[0] : null;
+    return data;
+  }
+
   async create(user: User) {
     const result = await this.userRepository.insert(user);
     if (!result.ok) {
