@@ -26,20 +26,27 @@ export class IncidentService {
     }
   }
 
-  async search(input: string, page: number, limit: number, orderBy: string[]) {
+  async search(
+    incidentType: string,
+    page: number,
+    limit: number,
+    sortedBy: string,
+  ) {
+    const key = incidentType;
+    const indexName = 'by_type';
     const params = {
       limit: limit,
       skip: limit * page,
-      sort: orderBy,
-      q: input,
+      sort: sortedBy,
+      key: key,
+      descending: true,
     };
     try {
       const result = await this.incidentRepository.view(
         'incident',
-        'incident_by_date',
+        indexName,
         params,
       );
-      console.log(result);
       return result;
     } catch (e) {
       return null;
