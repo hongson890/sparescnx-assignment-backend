@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Normal thing happen every day to me",
+    "assignee": "Alice Peace",
+    "type": "NORMAL",
+    "incidentDate": "2021-03-17T06:21:39.963Z",
+    "description": "I'm testing the data from my side.",
+    "note": "This is a testing data only",
+    "status": "NEW",
+    "createdAt": "2021-03-17T06:21:39.963Z"
+  },
+  {
+    "name": "Incident testing data for type NORMAL",
+    "assignee": "John Eng",
+    "type": "NORMAL",
+    "incidentDate": "2021-02-15T06:21:39.963Z",
+    "description": "I'm not good person.",
+    "note": "Thank you",
+    "status": "NEW",
+    "createdAt": "2021-03-16T06:21:39.963Z"
+  },
+  {
+    "name": "Automation makes it easy to repeat testing",
+    "assignee": "Alan Woo",
+    "type": "NORMAL",
+    "incidentDate": "2020-11-15T06:21:39.963Z",
+    "description": "You can use any testing framework that you like, as Nest ",
+    "note": "Thank you everyone",
+    "status": "NEW",
+    "createdAt": "2021-03-15T06:21:39.963Z"
+  },
+  {
+    "name": "The above sample is trivial, we aren't really test",
+    "assignee": "Minh Nguyen",
+    "type": "SERIOUS",
+    "incidentDate": "2020-11-13T06:21:39.963Z",
+    "description": "You are serious to me ",
+    "note": "Thank you everyone",
+    "status": "NEW",
+    "createdAt": "2021-03-14T06:21:39.963Z"
+  },
+  {
+    "name": "The above sample is trivial",
+    "assignee": "Minh Nguyen",
+    "type": "NOTIFICATION",
+    "incidentDate": "2020-11-13T06:21:39.963Z",
+    "description": "You are serious to me ",
+    "note": "Thank you everyone",
+    "status": "NEW",
+    "createdAt": "2021-03-14T06:21:39.963Z"
+  },
+  {
+    "name": "The more extensive use of Nest feature",
+    "assignee": "Pham Hong Nam",
+    "type": "IMMEDIATE",
+    "incidentDate": "2020-11-13T06:21:39.963Z",
+    "description": "You are serious to me so much",
+    "note": "Thank you everyone",
+    "status": "NEW",
+    "createdAt": "2021-03-14T06:21:39.963Z"
+  }
+]

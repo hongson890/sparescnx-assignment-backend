@@ -19,5 +19,21 @@
     "firstName": "Pham",
     "lastName": "Van Nam",
     "createdBy": "ba0c6af7-8dab-4927-996d-21190c73b26b"
+  },
+  {
+    "email": "user_test3@gmail.com",
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "role": "user",
+    "firstName": "Pham",
+    "lastName": "Van Hau",
+    "createdBy": "ba0c6af7-8dab-4927-996d-21190c73b26b"
+  },
+  {
+    "email": "user_test4@gmail.com",
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "role": "user",
+    "firstName": "Doan",
+    "lastName": "Van",
+    "createdBy": "ba0c6af7-8dab-4927-996d-21190c73b26b"
   }
 ]

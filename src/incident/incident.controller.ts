@@ -50,7 +50,7 @@ export class IncidentController {
   }
 
   @Get(':id')
-  getIncidentDetailById(@Param('id') id: string) {
+  async getIncidentDetailById(@Param('id') id: string) {
     return this.incidentService.getIncidentDetailById(id);
   }
 }

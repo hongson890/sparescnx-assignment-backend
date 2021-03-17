@@ -12,7 +12,6 @@ export class IncidentService {
   constructor(
     @InjectRepository(Incident)
     private readonly incidentRepository: Repository<Incident>,
-    private userService: UserService,
   ) {}
 
   findAll(): Promise<DocumentListResponse<Incident>> {
@@ -49,7 +48,10 @@ export class IncidentService {
         indexName,
         params,
       );
-      return result;
+      return {
+        rows: result.rows.map((row) => row.value),
+        total_rows: result.total_rows,
+      };
     } catch (e) {
       return null;
     }
@@ -64,8 +66,10 @@ export class IncidentService {
       if (!result.ok) {
         throw new HttpException('delete incident fail', HttpStatus.BAD_GATEWAY);
       }
+      return result.ok;
     } catch (e) {
       console.log(e);
+      return Promise.reject('delete fail');
     }
   }
 

@@ -12,9 +12,8 @@ import { PassportModule } from '@nestjs/passport';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     CouchDbModule.forFeature([Incident]),
-    CouchDbModule.forFeature([User]),
   ],
-  providers: [IncidentService, UserService],
+  providers: [IncidentService],
   controllers: [IncidentController],
 })
 export class IncidentModule {}
