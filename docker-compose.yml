@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  main:
+    container_name: main
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: npm run start
+    networks:
+      - webnet
+    depends_on:
+      - couchdb
+  couchdb:
+    container_name: couchdb
+    image: bitnami/couchdb:latest
+    networks:
+      - webnet
+    ports:
+      - 5984:5984
+networks:
+  webnet:

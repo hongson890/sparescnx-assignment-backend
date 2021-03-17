@@ -5,7 +5,6 @@ import { Repository } from '../couchdb/interfaces';
 import { Incident } from './incident.entity';
 import { CouchDbEntity } from '../couchdb';
 import { IncidentCreatedDTO } from './IncidentCreatedDTO';
-import { UserService } from '../users/user.service';
 
 @Injectable()
 export class IncidentService {
