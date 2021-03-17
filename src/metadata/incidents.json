@@ -1,0 +1,11 @@
+[{
+  "name": "Normal thing happen every day to me",
+  "assignee": "Alice Peace",
+  "type": "NORMAL",
+  "incidentDate": "2021-03-17T06:21:39.963Z",
+  "description": "I'm testing the data from my side.",
+  "note": "This is a testing data only",
+  "status": "NEW",
+  "userId": "95ec3f44955b0816250eb57fed009a77",
+  "createdAt": "2021-03-17T06:21:39.963Z"
+}]

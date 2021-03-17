@@ -1,0 +1,12 @@
+{
+  "_id": "_design/incident",
+  "views": {
+    "by_id": {
+      "map": "function (doc) {\n  emit(doc._id, doc);\n}"
+    },
+    "by_type": {
+      "map": "function (doc) {\n  emit(doc.type, doc);\n}"
+    }
+  },
+  "language": "javascript"
+}

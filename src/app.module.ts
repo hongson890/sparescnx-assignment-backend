@@ -4,13 +4,11 @@ import { UserModule } from './users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { IncidentModule } from './incident/incident.module';
+import { DB_CONFIG } from './db.config';
 
 @Module({
   imports: [
-    CouchDbModule.forRoot({
-      url: 'http://sparescnx_user:123456@localhost:5984',
-      requestDefaults: { jar: true },
-    }),
+    CouchDbModule.forRoot(DB_CONFIG),
     JwtModule.register({
       secretOrPrivateKey: 'secret12356789',
     }),
