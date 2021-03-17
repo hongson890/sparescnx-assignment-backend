@@ -58,7 +58,7 @@ $ yarn test:cov
 ```
 
 ## Database connection config
-#####1. DB config is located in file: /src/db.config.ts
+1. DB config is located in file: /src/db.config.ts
 ```
 export const DB_CONFIG = {
   url: 'http://admin:couchdb@localhost:5984',
@@ -67,7 +67,7 @@ export const DB_CONFIG = {
 
 ```
 
-#####2. Metadata
+2. Metadata
 At the first time of running, the app will run the script in file /src/db.init.ts and import metadata in folder /src/mockdata 
 Next time, it will skip execute the script if the database existed
 ```
