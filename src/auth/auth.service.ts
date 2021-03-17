@@ -43,7 +43,7 @@ export class AuthService {
     const accessToken = this.jwtService.sign(data);
 
     return {
-      expires_in: 3600 * 10000,
+      expires_in: 3600 * 24 * 30,
       accessToken: accessToken,
       user: userData,
       status: 200,

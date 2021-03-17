@@ -15,7 +15,7 @@ import { secretKey } from './auth.constant';
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
       secretOrPrivateKey: secretKey,
-      signOptions: { expiresIn: 3600 },
+      signOptions: { expiresIn: 3600 * 24 * 30 },
     }),
   ],
   providers: [UserService, AuthService, JwtStrategy],
