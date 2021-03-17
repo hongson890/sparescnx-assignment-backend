@@ -21,7 +21,7 @@ export class IncidentController {
 
   @Post('/create')
   async createIncident(@Body() incident: IncidentCreatedDTO) {
-    return this.incidentService.create(incident);
+    return this.incidentService.createOrUpdate(incident);
   }
 
   @Post('/search')
@@ -45,8 +45,8 @@ export class IncidentController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() incident: Incident) {
-    return `This action updates a #${id} cat`;
+  async update(@Param('id') id: string, @Body() incident: Incident) {
+    return this.incidentService.createOrUpdate(incident);
   }
 
   @Get(':id')

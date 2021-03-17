@@ -19,11 +19,12 @@ export class IncidentService {
     return this.incidentRepository.list();
   }
 
-  async create(incident: IncidentCreatedDTO) {
+  async createOrUpdate(incident: IncidentCreatedDTO) {
     const result = await this.incidentRepository.insert(incident);
     if (!result.ok) {
       throw new HttpException('Insert incident fail', HttpStatus.BAD_REQUEST);
     }
+    return result;
   }
 
   async search(
@@ -35,9 +36,10 @@ export class IncidentService {
     const key = incidentType;
     const indexName = 'by_type';
     const params = {
-      limit: limit,
+      limit: limit + 1,
       skip: limit * page,
       sort: sortedBy,
+      reduce: false,
       key: key,
       descending: true,
     };
@@ -97,21 +99,19 @@ export class IncidentService {
   }
 
   async getIncidentDetailById(id: string) {
-    const q: MangoQuery = {
-      selector: {
-        _id: { $eq: id },
-      },
+    const key = id;
+    const indexName = 'by_id';
+    const params = {
+      key: key,
     };
-    const result = await this.incidentRepository.find(q);
-    const data = result.docs ? result.docs[0] : null;
-    if (data) {
-      const userInfo = await this.userService.getUserById(data.userId);
-      const responseObj = {
-        ...data,
-        fullName: `${userInfo.firstName} ${userInfo.lastName}`,
-      };
-      return responseObj;
-    } else {
+    try {
+      const result = await this.incidentRepository.view(
+        'incident',
+        indexName,
+        params,
+      );
+      return result.rows[0] ? result.rows[0].value : null;
+    } catch (e) {
       return null;
     }
   }

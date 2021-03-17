@@ -5,6 +5,7 @@ import { IncidentStatus } from '../common/IncidentStatus';
 @Entity('incident')
 export class Incident extends CouchDbEntity {
   name: string;
+  assignee: string;
   type: string = IncidentType.NORMAL.value;
   incidentDate?: Date = new Date();
   description? = '';

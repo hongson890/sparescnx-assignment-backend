@@ -3,6 +3,7 @@ import { IncidentStatus } from '../common/IncidentStatus';
 
 export class IncidentCreatedDTO {
   name: string;
+  assignee: string;
   type: string = IncidentType.NORMAL.value;
   incidentDate?: Date = new Date();
   description? = '';
