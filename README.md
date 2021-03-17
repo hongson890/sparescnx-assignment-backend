@@ -26,47 +26,62 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Installation couchdb
 
 ```bash
-$ npm install
+$ docker run -p 5984:5984  --name couchdb bitnami/couchdb:latest
+
+# Default account: admin/couchdb
+# Accessing url: http://localhost:5984/_utils/#/_all_dbs
+```
+
+## Installation app
+
+```bash
+$ yarn
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
+$ yarn start
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
+$ yarn test
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
-## Support
+## Database connection config
+#####1. DB config is located in file: /src/db.config.ts
+```
+export const DB_CONFIG = {
+  url: 'http://admin:couchdb@localhost:5984',
+  requestDefaults: { jar: true },
+};
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
 
-## Stay in touch
+#####2. Metadata
+At the first time of running, the app will run the script in file /src/db.init.ts and import metadata in folder /src/mockdata 
+Next time, it will skip execute the script if the database existed
+```
+src
+    /mockdata
+        incident.json
+        users.json
+        view_incident_id.json  
+    ...
+    db.init.ts
+    db.config.ts
+    ...
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
