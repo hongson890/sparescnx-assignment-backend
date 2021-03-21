@@ -15,7 +15,7 @@ import { IncidentCreatedDTO } from './IncidentCreatedDTO';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('incidents')
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 export class IncidentController {
   constructor(private readonly incidentService: IncidentService) {}
 
@@ -27,11 +27,17 @@ export class IncidentController {
   @Post('/search')
   async searchIncident(@Body() searchObj: any) {
     return this.incidentService.search(
+      searchObj.userId,
       searchObj.incidentType,
       searchObj.page,
       searchObj.limit,
       searchObj.sortedBy,
     );
+  }
+
+  @Get('test')
+  testSearchByIndex() {
+    return this.incidentService.testSearchByIndex();
   }
 
   @Delete()
@@ -44,9 +50,14 @@ export class IncidentController {
     return this.incidentService.deleteIncidentList(deletedIds);
   }
 
-  @Put(':id')
+  @Put('/update/:id')
   async update(@Param('id') id: string, @Body() incident: Incident) {
     return this.incidentService.createOrUpdate(incident);
+  }
+
+  @Put('/resolve')
+  async resolve(@Body() incidentList: Incident[]) {
+    return this.incidentService.resolve(incidentList);
   }
 
   @Get(':id')

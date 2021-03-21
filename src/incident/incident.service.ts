@@ -1,4 +1,4 @@
-import { BulkModifyDocsWrapper, DocumentListResponse, MangoQuery } from 'nano';
+import { BulkModifyDocsWrapper, DocumentListResponse, DocumentSearchParams, MangoQuery } from 'nano';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '../couchdb/module';
 import { Repository } from '../couchdb/interfaces';
@@ -26,13 +26,14 @@ export class IncidentService {
   }
 
   async search(
+    userId: string,
     incidentType: string,
     page: number,
     limit: number,
     sortedBy: string,
   ) {
-    const key = incidentType;
-    const indexName = 'by_type';
+    const key = userId ? userId : incidentType;
+    const indexName = userId ? 'by_user' : 'by_type';
     const params = {
       limit: limit + 1,
       skip: limit * page,
@@ -47,6 +48,11 @@ export class IncidentService {
         indexName,
         params,
       );
+      if (indexName === 'by_user') {
+        result.rows = result.rows.filter(
+          (row: any) => row.value.type === incidentType && row.value.status === 'ASSIGNED',
+        );
+      }
       return {
         rows: result.rows.map((row) => row.value),
         total_rows: result.total_rows,
@@ -83,6 +89,27 @@ export class IncidentService {
     return data;
   }
 
+  async testSearchByIndex() {
+    try {
+      // const q: MangoQuery = {
+      //   selector: {
+      //     status: { $eq: 'NEW' },
+      //   },
+      // };
+      const params: DocumentSearchParams = {
+        q: 'status=NEW',
+      };
+      const result = await this.incidentRepository.search(
+        'index',
+        'incident-type-index',
+        params,
+      );
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async deleteIncidentList(deletedId: string[]) {
     try {
       const listDocs = await this.getIncidentsByIds(deletedId);
@@ -103,19 +130,27 @@ export class IncidentService {
 
   async getIncidentDetailById(id: string) {
     const key = id;
-    const indexName = 'by_id';
+    const viewName = 'by_id';
     const params = {
       key: key,
     };
     try {
       const result = await this.incidentRepository.view(
         'incident',
-        indexName,
+        viewName,
         params,
       );
       return result.rows[0] ? result.rows[0].value : null;
     } catch (e) {
       return null;
     }
+  }
+
+  async resolve(incidentList: Incident[]) {
+    const deletedList: BulkModifyDocsWrapper = {
+      docs: incidentList,
+    };
+    const result = await this.incidentRepository.bulk(deletedList);
+    return result;
   }
 }

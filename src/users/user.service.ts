@@ -60,7 +60,7 @@ export class UserService {
         email: { $eq: email },
         password: { $eq: password },
       },
-      fields: ['_id', '_rev', 'email', 'role'],
+      fields: ['_id', '_rev', 'email', 'role', 'firstName', 'lastName'],
     };
     const result = await this.userRepository.find(q);
     const data = result.docs ? result.docs[0] : null;
